@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peta Kuliner - CeritaRasa</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .map-container {
+      background: var(--clr-surface);
+      border-bottom: 1px solid var(--clr-border);
+      padding: var(--sp-4);
+      position: relative;
+    }
+    #indonesia-map {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    #indonesia-map path, #indonesia-map circle {
+      fill: #b5c9a0;
+      stroke: #fff;
+      stroke-width: .5;
+      cursor: pointer;
+      transition: fill 0.2s ease;
+    }
+    #indonesia-map path:hover, #indonesia-map circle:hover { fill: var(--clr-accent); }
+    #indonesia-map path.highlighted, #indonesia-map circle.highlighted { fill: var(--clr-primary); }
+    #indonesia-map path.dimmed, #indonesia-map circle.dimmed { fill: #dce8d4; }
+
+    .map-hint {
+      text-align: center;
+      font-size: var(--fz-sm);
+      color: var(--clr-text-3);
+      padding: var(--sp-2) 0 0;
+    }
+    .island-list {
+      display: flex;
+      gap: var(--sp-2);
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: var(--sp-3) var(--sp-4);
+      border-bottom: 1px solid var(--clr-border);
+      background: var(--clr-surface);
+    }
+    .island-list::-webkit-scrollbar { display: none; }
+    .island-chip {
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: var(--fz-sm);
+      font-weight: 600;
+      border: 1.5px solid var(--clr-border);
+      background: var(--clr-bg);
+      color: var(--clr-text-2);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .island-chip.active {
+      border-color: var(--clr-primary);
+      background: rgba(107,42,14,.07);
+      color: var(--clr-primary);
+    }
+    .panel { padding: var(--sp-4); }
+    .province-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); margin-top: var(--sp-3); }
+    .prov-card {
+      padding: var(--sp-3);
+      background: var(--clr-surface);
+      border: 1.5px solid var(--clr-border);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition);
+      text-align: center;
+    }
+    .prov-card:hover, .prov-card.active {
+      border-color: var(--clr-primary);
+      background: rgba(107,42,14,.05);
+    }
+    .prov-card .name { font-size: var(--fz-sm); font-weight: 600; }
+    .prov-card .count { font-size: var(--fz-xs); color: var(--clr-text-3); margin-top: 2px; }
+    .recipe-panel { margin-top: var(--sp-4); }
+  </style>
+</head>
+<body class="has-bottom-nav">
+<div class="page-wrapper">
+  <div class="page-header with-border">
+    <div class="d-flex align-center justify-between">
+      <span class="section-title" data-i18n="map_title">Peta Kuliner Indonesia</span>
+      <div class="lang-toggle">
+        <button class="lang-btn" data-lang="id">ID</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-container">
+    <div id="map-svg-wrap"></div>
+    <div class="map-hint" id="map-hint" data-i18n="select_island">Pilih pulau untuk melihat provinsinya</div>
+  </div>
+
+  <div class="island-list" id="island-list"></div>
+
+  <div class="panel page-content animate-in" id="main-panel">
+    <div class="empty-state">
+      <i class="bi bi-geo-alt"></i>
+      <p data-i18n="select_island">Pilih pulau untuk melihat kuliner khasnya</p>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item"><i class="bi bi-house"></i><span data-i18n="nav_home">Beranda</span></a>
+    <a href="map.html" class="nav-item"><i class="bi bi-map"></i><span data-i18n="nav_map">Peta</span></a>
+    <a href="ingredient-search.html" class="nav-item"><i class="bi bi-basket3"></i><span>Bahan</span></a>
+    <a href="favorites.html" class="nav-item"><i class="bi bi-heart"></i><span data-i18n="nav_fav">Favorit</span></a>
+    <a href="profile.html" class="nav-item"><i class="bi bi-person"></i><span data-i18n="nav_profile">Profil</span></a>
+  </nav>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/map.js"></script>
+</body>
+</html>

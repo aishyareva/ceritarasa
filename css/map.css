@@ -1,0 +1,91 @@
+.map-container {
+  background: var(--clr-surface);
+  border-bottom: 1px solid var(--clr-border);
+  padding: var(--sp-4);
+  position: relative;
+}
+
+#indonesia-map {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+#indonesia-map path,
+#indonesia-map circle {
+  fill: #b5c9a0;
+  stroke: #fff;
+  stroke-width: .5;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+#indonesia-map path:hover,
+#indonesia-map circle:hover { fill: var(--clr-accent); }
+#indonesia-map path.highlighted,
+#indonesia-map circle.highlighted { fill: var(--clr-primary); }
+#indonesia-map path.dimmed,
+#indonesia-map circle.dimmed { fill: #dce8d4; }
+
+.map-hint {
+  text-align: center;
+  font-size: var(--fz-sm);
+  color: var(--clr-text-3);
+  padding: var(--sp-2) 0 0;
+}
+
+.island-list {
+  display: flex;
+  gap: var(--sp-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--clr-border);
+  background: var(--clr-surface);
+}
+.island-list::-webkit-scrollbar { display: none; }
+
+.island-chip {
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: var(--fz-sm);
+  font-weight: 600;
+  border: 1.5px solid var(--clr-border);
+  background: var(--clr-bg);
+  color: var(--clr-text-2);
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+.island-chip.active {
+  border-color: var(--clr-primary);
+  background: rgba(107,42,14,.07);
+  color: var(--clr-primary);
+}
+
+.panel { padding: var(--sp-4); }
+
+.province-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
+}
+
+.prov-card {
+  padding: var(--sp-3);
+  background: var(--clr-surface);
+  border: 1.5px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center;
+}
+.prov-card:hover,
+.prov-card.active {
+  border-color: var(--clr-primary);
+  background: rgba(107,42,14,.05);
+}
+.prov-card .name { font-size: var(--fz-sm); font-weight: 600; }
+.prov-card .count { font-size: var(--fz-xs); color: var(--clr-text-3); margin-top: 2px; }
+
+.recipe-panel { margin-top: var(--sp-4); }

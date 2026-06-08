@@ -1,0 +1,133 @@
+.onb-wrap {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.onb-slides {
+  flex: 1;
+  display: flex;
+  transition: transform 0.45s cubic-bezier(.4,0,.2,1);
+}
+
+.onb-slide {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-8) var(--sp-6);
+  text-align: center;
+}
+
+.onb-visual {
+  width: 260px;
+  height: 260px;
+  border-radius: var(--radius-xl);
+  background: var(--clr-surface-2);
+  border: 2px solid var(--clr-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  margin-bottom: var(--sp-8);
+  position: relative;
+  overflow: hidden;
+}
+.onb-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(196,135,58,.12), transparent);
+}
+.onb-visual i { color: var(--clr-accent); opacity: .7; }
+
+.onb-slide h1 {
+  font-family: var(--ff-display);
+  font-size: var(--fz-2xl);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--clr-text);
+  margin-bottom: var(--sp-3);
+}
+.onb-slide p { color: var(--clr-text-2); font-size: var(--fz-md); line-height: 1.6; }
+
+.onb-logo {
+  font-family: var(--ff-display);
+  font-size: var(--fz-lg);
+  font-weight: 700;
+  color: var(--clr-primary);
+  letter-spacing: -0.02em;
+}
+
+.onb-footer {
+  padding: var(--sp-6) var(--sp-6) var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.onb-dots { display: flex; gap: var(--sp-2); }
+.onb-dot {
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--clr-border);
+  transition: all 0.3s ease;
+}
+.onb-dot.active { background: var(--clr-primary); width: 24px; }
+.onb-dot:not(.active) { width: 6px; }
+
+.onb-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  width: 100%;
+  max-width: 320px;
+}
+
+.onb-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-5) var(--sp-6) 0;
+}
+
+.hidden { display: none !important; }
+
+.onb-wrap{background:radial-gradient(circle at top,#fff,#faf7f2 60%)}
+.onb-visual{width:300px;height:300px;box-shadow:0 20px 50px rgba(107,42,14,.12);animation:floaty 4s ease-in-out infinite}
+.onb-footer{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,#faf7f2 30%)}
+.onb-actions{max-width:360px}
+@keyframes floaty{50%{transform:translateY(-8px)}}
+
+
+/* Luxury Culinary Redesign */
+.onb-wrap{
+background:
+radial-gradient(circle at top right,rgba(196,135,58,.18),transparent 30%),
+linear-gradient(180deg,#fffdf9,#f5efe6);
+}
+.onb-slide{max-width:900px;margin:auto;}
+.hero-food{
+width:min(88vw,520px);
+height:min(60vw,420px);
+border-radius:32px;
+background-size:cover;
+background-position:center;
+border:none;
+overflow:hidden;
+box-shadow:0 30px 80px rgba(61,21,8,.18);
+}
+.hero-1{background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80');}
+.hero-2{background-image:url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=80');}
+.hero-3{background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=80');}
+.luxury-overlay{
+position:absolute;inset:0;
+background:linear-gradient(to top,rgba(20,10,0,.55),transparent 55%);
+}
+.onb-slide h1{font-size:clamp(2rem,4vw,3.5rem);max-width:800px;}
+.onb-slide p{max-width:650px;font-size:1.05rem;}
+.onb-logo{font-size:1.6rem;}

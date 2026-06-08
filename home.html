@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CeritaRasa</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .home-topbar {
+      padding: var(--sp-4) var(--sp-4) var(--sp-3);
+      background: rgba(250,247,242,.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--clr-border);
+    }
+    .greeting { font-size: var(--fz-xs); color: var(--clr-text-3); letter-spacing: .04em; text-transform: uppercase; }
+    .greeting-name { font-family: var(--ff-display); font-size: var(--fz-xl); font-weight: 700; }
+
+    .hero-banner {
+      margin: var(--sp-4);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--clr-primary) 0%, #3D1508 100%);
+      padding: var(--sp-5);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      right: -20px; top: -20px;
+      width: 140px; height: 140px;
+      background: rgba(255,255,255,.06);
+      border-radius: 50%;
+    }
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      right: 30px; bottom: -40px;
+      width: 100px; height: 100px;
+      background: rgba(255,255,255,.04);
+      border-radius: 50%;
+    }
+    /* Batik-ish decorative dots inside hero */
+    .hero-banner .hero-deco {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 18px 18px;
+      pointer-events: none;
+    }
+    .hero-banner h2 { font-family: var(--ff-display); font-size: var(--fz-xl); margin-bottom: var(--sp-2); position:relative; }
+    .hero-banner p  { font-size: var(--fz-sm); opacity: .8; margin-bottom: var(--sp-4); position:relative; }
+    .hero-banner .hero-actions { position:relative; display:flex; gap: var(--sp-2); flex-wrap:wrap; }
+
+    .section { padding: 0 var(--sp-4); margin-bottom: var(--sp-6); }
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: var(--sp-3);
+    }
+    .see-all { font-size: var(--fz-sm); font-weight: 600; color: var(--clr-primary); }
+
+    /* ── Home inline map ── */
+    .home-map-section {
+      margin: 0 var(--sp-4) var(--sp-6);
+    }
+    .home-map-section .section-head { margin-bottom: var(--sp-3); }
+    .home-map-card {
+      border-radius: var(--radius-lg);
+      border: 1.5px solid var(--clr-border);
+      background: var(--clr-surface);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .home-map-svg-wrap {
+      background: linear-gradient(160deg, #dff0d2 0%, #c8e2b5 100%);
+      padding: var(--sp-3) var(--sp-3) var(--sp-2);
+      cursor: pointer;
+    }
+    .home-map-svg-wrap svg {
+      width: 100%; height: auto; display: block;
+    }
+    .home-map-svg-wrap svg path,
+    .home-map-svg-wrap svg circle {
+      fill: #8fb87a;
+      stroke: #fff;
+      stroke-width: .5;
+      cursor: pointer;
+      transition: fill 0.2s ease;
+    }
+    .home-map-svg-wrap svg path:hover,
+    .home-map-svg-wrap svg circle:hover { fill: var(--clr-accent); }
+    .home-map-svg-wrap svg path.h-highlighted,
+    .home-map-svg-wrap svg circle.h-highlighted { fill: var(--clr-primary); }
+    .home-map-svg-wrap svg path.h-dimmed,
+    .home-map-svg-wrap svg circle.h-dimmed { fill: #c8ddb8; }
+
+    .home-map-chips {
+      display: flex; gap: var(--sp-2); overflow-x: auto;
+      scrollbar-width: none; padding: var(--sp-2) var(--sp-3);
+      border-top: 1px solid var(--clr-border);
+      background: var(--clr-surface);
+    }
+    .home-map-chips::-webkit-scrollbar { display: none; }
+    .home-map-chip {
+      padding: 0.3rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-size: var(--fz-xs); font-weight: 600;
+      border: 1.5px solid var(--clr-border);
+      background: var(--clr-bg); color: var(--clr-text-2);
+      cursor: pointer; transition: all var(--transition); white-space: nowrap;
+    }
+    .home-map-chip.active {
+      border-color: var(--clr-primary);
+      background: rgba(107,42,14,.08); color: var(--clr-primary);
+    }
+    .home-map-result {
+      padding: var(--sp-3);
+      border-top: 1px solid var(--clr-border);
+      font-size: var(--fz-sm);
+      color: var(--clr-text-3);
+      text-align: center;
+      min-height: 44px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .home-map-result .prov-list {
+      display: flex; flex-wrap: wrap; gap: var(--sp-2);
+      justify-content: center; width: 100%;
+    }
+    .home-map-prov-chip {
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--radius-full);
+      font-size: var(--fz-xs); font-weight: 600;
+      background: rgba(107,42,14,.07); color: var(--clr-primary);
+      cursor: pointer; transition: all var(--transition);
+      text-decoration: none;
+    }
+    .home-map-prov-chip:hover { background: var(--clr-primary); color:#fff; }
+    .map-full-link {
+      display: flex; align-items: center; justify-content: center;
+      gap: var(--sp-2); padding: var(--sp-2) var(--sp-4);
+      border-top: 1px solid var(--clr-border);
+      font-size: var(--fz-xs); font-weight: 600;
+      color: var(--clr-primary); background: rgba(107,42,14,.03);
+      text-decoration: none; transition: background var(--transition);
+    }
+    .map-full-link:hover { background: rgba(107,42,14,.07); }
+
+    .ingr-banner {
+      margin: 0 var(--sp-4) var(--sp-6);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(196,135,58,.15) 0%, rgba(196,135,58,.05) 100%);
+      border: 1.5px solid rgba(196,135,58,.3);
+      padding: var(--sp-4);
+      display: flex; align-items: center; gap: var(--sp-4);
+      cursor: pointer; transition: box-shadow var(--transition);
+      text-decoration: none; color: inherit;
+    }
+    .ingr-banner:hover { box-shadow: var(--shadow-md); }
+    .ingr-icon {
+      width: 52px; height: 52px;
+      background: var(--clr-accent); border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1.5rem; flex-shrink: 0;
+    }
+
+    .filter-scroll { display: flex; gap: var(--sp-2); overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+    .filter-scroll::-webkit-scrollbar { display: none; }
+    .search-results { display: none; flex-direction: column; gap: var(--sp-3); }
+    .search-results.show { display: flex; }
+    .default-sections {}
+  </style>
+</head>
+<body class="has-bottom-nav">
+<div class="page-wrapper">
+  <div class="home-topbar">
+    <div class="d-flex align-center justify-between mb-4">
+      <div>
+        <div class="greeting">Halo,</div>
+        <div class="greeting-name" id="greeting-name">Sobat Kuliner</div>
+      </div>
+      <div class="d-flex align-center gap-2">
+        <div class="lang-toggle">
+          <button class="lang-btn" data-lang="id">ID</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+      </div>
+    </div>
+    <div class="search-bar">
+      <i class="bi bi-search"></i>
+      <input type="search" id="search-input" data-i18n-ph="search_ph" placeholder="Cari makanan atau daerah...">
+    </div>
+  </div>
+
+  <div class="page-content animate-in">
+    <div class="search-results" id="search-results">
+      <div class="section" style="margin-top:var(--sp-4);">
+        <div id="search-list" class="d-flex flex-col gap-3"></div>
+      </div>
+    </div>
+
+    <div class="default-sections" id="default-sections">
+      <div class="hero-banner" style="margin-top:var(--sp-4);">
+        <div class="hero-deco"></div>
+        <h2 data-i18n="onb_title1">Jelajahi Kekayaan Kuliner Nusantara</h2>
+        <p data-i18n="onb_desc1">Temukan makanan khas dari berbagai daerah di Indonesia.</p>
+        <div class="hero-actions">
+          <a href="map.html" class="btn" style="background:#fff;color:var(--clr-primary);padding:.65rem 1.25rem;font-size:var(--fz-sm);">
+            <i class="bi bi-map"></i> <span data-i18n="explore_map">Jelajahi Peta</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <span class="section-title" data-i18n="trending">Sedang Tren</span>
+          <a href="#" class="see-all" data-i18n="see_all" id="btn-see-all-trending">Lihat Semua</a>
+        </div>
+        <div class="filter-scroll mb-4" id="filter-tags">
+          <button class="chip active" data-tag="all">Semua</button>
+          <button class="chip" data-tag="pedas">Pedas</button>
+          <button class="chip" data-tag="berkuah">Berkuah</button>
+          <button class="chip" data-tag="tradisional">Tradisional</button>
+          <button class="chip" data-tag="daging">Daging</button>
+          <button class="chip" data-tag="seafood">Seafood</button>
+        </div>
+        <div class="scroll-x" id="trending-list"></div>
+      </div>
+
+      <!-- Inline clickable map -->
+      <div class="home-map-section">
+        <div class="section-head">
+          <span class="section-title" data-i18n="map_title">Peta Kuliner Indonesia</span>
+          <a href="map.html" class="see-all">Peta Lengkap</a>
+        </div>
+        <div class="home-map-card">
+          <div class="home-map-svg-wrap" id="home-map-svg-wrap">
+            <!-- SVG injected by JS -->
+          </div>
+          <div class="home-map-chips" id="home-map-chips"></div>
+          <div class="home-map-result" id="home-map-result">
+            <span style="width:100%;text-align:center;">Ketuk pulau atau pilih wilayah</span>
+          </div>
+          <a href="map.html" class="map-full-link">
+            <i class="bi bi-arrows-fullscreen"></i> Buka peta lengkap
+          </a>
+        </div>
+      </div>
+
+      <a href="ingredient-search.html" class="ingr-banner">
+        <div class="ingr-icon"><i class="bi bi-basket3"></i></div>
+        <div>
+          <div class="fw-600" data-i18n="ingr_search">Cari dari Bahan</div>
+          <div class="text-sm text-muted mt-2">Masak dari bahan yang ada di dapur</div>
+        </div>
+        <i class="bi bi-chevron-right text-muted" style="margin-left:auto;"></i>
+      </a>
+
+      <div class="section">
+        <div class="section-head">
+          <span class="section-title" data-i18n="recommended">Rekomendasi</span>
+        </div>
+        <div class="d-flex flex-col gap-3" id="recommended-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item"><i class="bi bi-house"></i><span data-i18n="nav_home">Beranda</span></a>
+    <a href="map.html" class="nav-item"><i class="bi bi-map"></i><span data-i18n="nav_map">Peta</span></a>
+    <a href="ingredient-search.html" class="nav-item"><i class="bi bi-basket3"></i><span>Bahan</span></a>
+    <a href="favorites.html" class="nav-item"><i class="bi bi-heart"></i><span data-i18n="nav_fav">Favorit</span></a>
+    <a href="profile.html" class="nav-item"><i class="bi bi-person"></i><span data-i18n="nav_profile">Profil</span></a>
+  </nav>
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/home.js"></script>
+<script>
+// Inline map widget for Beranda
+(async function initHomeMap() {
+  const wrap   = document.getElementById('home-map-svg-wrap');
+  const chips  = document.getElementById('home-map-chips');
+  const result = document.getElementById('home-map-result');
+  if (!wrap || !chips || !result) return;
+
+  let svgEl = null;
+  let activeIsland = null;
+
+  try {
+    const r = await fetch('images/map-indonesia.svg');
+    const txt = await r.text();
+    wrap.innerHTML = txt;
+    svgEl = wrap.querySelector('svg');
+    if (!svgEl) return;
+    svgEl.setAttribute('width','100%');
+    svgEl.removeAttribute('height');
+  } catch(e) { return; }
+
+  // Build island chips
+  DB.islands.forEach(island => {
+    const btn = document.createElement('button');
+    btn.className = 'home-map-chip';
+    btn.textContent = island.name;
+    btn.dataset.id = island.id;
+    btn.addEventListener('click', () => selectIsland(island));
+    chips.appendChild(btn);
+  });
+
+  function selectIsland(island) {
+    activeIsland = island;
+    chips.querySelectorAll('.home-map-chip').forEach(c => {
+      c.classList.toggle('active', c.dataset.id === island.id);
+    });
+    svgEl.querySelectorAll('path, circle').forEach(el => {
+      const inIsl = island.svgIds.includes(el.id);
+      el.classList.toggle('h-highlighted', inIsl);
+      el.classList.toggle('h-dimmed', !inIsl);
+    });
+    renderProvinces(island);
+  }
+
+  function renderProvinces(island) {
+    const provs = DB.provinces.filter(p => p.island === island.id);
+    if (!provs.length) {
+      result.innerHTML = `<span style="width:100%;text-align:center;">Belum ada provinsi untuk wilayah ini</span>`;
+      return;
+    }
+    const items = provs.map(p =>
+      `<a href="map.html" class="home-map-prov-chip" title="${p.recipes.length} resep">${p.name}</a>`
+    ).join('');
+    result.innerHTML = `<div class="prov-list">${items}</div>`;
+  }
+
+  // Click on SVG path
+  svgEl.addEventListener('click', e => {
+    const el = e.target.closest('path, circle');
+    if (!el) return;
+    const island = DB.islands.find(isl => isl.svgIds.includes(el.id));
+    if (island) selectIsland(island);
+  });
+})();
+</script>
+</body>
+</html>
